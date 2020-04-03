@@ -1,0 +1,49 @@
+{
+    "name": "imahmood/cakephp-payment",
+    "description": "CakePHP payments plugin",
+    "type": "cakephp-plugin",
+    "keywords": [
+        "cakephp",
+        "payment",
+        "gateway",
+        "bank",
+        "zarinpal"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mahmood Dehghani",
+            "email": "mahmood.public@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "ext-soap": "*",
+        "ext-mbstring": "*",
+        "cakephp/cakephp": "^4.0",
+        "cakephp/migrations": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5",
+        "cakephp/cakephp-codesniffer": "~4.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CakePayment\\": "src"
+        },
+        "files": [
+            "src/Core/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CakePayment\\Test\\": "tests"
+        }
+    },
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}
