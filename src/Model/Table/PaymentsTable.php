@@ -5,7 +5,9 @@ namespace CakePayment\Model\Table;
 
 use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\Table;
+use Cake\Utility\Text;
 use Cake\Validation\Validator;
+use CakePayment\Model\Entity\Payment;
 
 /**
  * Payments Model
@@ -98,5 +100,24 @@ class PaymentsTable extends Table
     protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
         return $schema->setColumnType('status', 'integer');
+    }
+
+    /**
+     * @param float $amount Transaction amount
+     * @param array $data Transaction data
+     * @return \CakePayment\Model\Entity\Payment|false
+     */
+    public function newTransaction($amount, array $data = [])
+    {
+        if ($amount < 1) {
+            return false;
+        }
+
+        $transaction = $this->newEntity($data);
+        $transaction->amount = $amount;
+        $transaction->status = Payment::STATUS_PENDING;
+        $transaction->secure_key = Text::uuid();
+
+        return $this->save($transaction);
     }
 }

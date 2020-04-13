@@ -9,7 +9,6 @@ use Cake\Core\App;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Inflector;
-use Cake\Utility\Text;
 use CakePayment\Model\Entity\Payment;
 use Exception;
 
@@ -47,20 +46,7 @@ class PaymentComponent extends Component
      */
     public function create($amount, array $data = [])
     {
-        if ($amount < 1) {
-            return false;
-        }
-
-        $transaction = $this->getTable()->newEntity($data);
-        $transaction->amount = $amount;
-        $transaction->status = Payment::STATUS_PENDING;
-        $transaction->secure_key = Text::uuid();
-
-        if ($this->getTable()->save($transaction)) {
-            return $transaction;
-        }
-
-        return false;
+        return $this->getTable()->newTransaction($amount, $data);
     }
 
     /**
