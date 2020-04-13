@@ -26,12 +26,6 @@ class CreatePayments extends AbstractMigration
                 'autoIncrement' => true,
                 'signed' => false,
             ])
-            ->addColumn('conversion_rate', 'decimal', [
-                'signed' => false,
-                'default' => 1,
-                'precision' => 15,
-                'scale' => 10,
-            ])
             ->addColumn('amount', 'decimal', [
                 'signed' => false,
                 'precision' => 12,
