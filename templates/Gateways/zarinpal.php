@@ -1,21 +1,12 @@
 <?php
 $this->layout = 'CakePayment.gateway';
+$this->assign('pageTitle', 'انتقال به درگاه پرداخت آنلاین');
 ?>
 
-<!DOCTYPE html>
-<html>
+<form name="form" id="form-gateway" method="GET" action="<?= $redirectUrl . $authority ?>"></form>
 
-<head>
-</head>
-
-<body>
-    <form name="form" id="arina-gateway" method="GET" action="<?= $redirectUrl . $authority ?>"></form>
-
-    <script>
-        setTimeout(function() {
-            document.getElementById('arina-gateway').submit();
-        }, 300);
-    </script>
-</body>
-
-</html>
+<script>
+    setTimeout(function () {
+        document.getElementById('form-gateway').submit();
+    }, 300);
+</script>
