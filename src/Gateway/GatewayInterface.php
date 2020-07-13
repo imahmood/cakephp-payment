@@ -13,13 +13,13 @@ interface GatewayInterface
     public const CONNECTION_ERROR = 'connection_err';
 
     /**
-     * @param \Cake\Datasource\EntityInterface|\CakePayment\Model\Entity\Payment $transaction Transaction
+     * @param \Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment $transaction Transaction
      * @return bool
      */
     public function payRequest(EntityInterface $transaction);
 
     /**
-     * @param \Cake\Datasource\EntityInterface|\CakePayment\Model\Entity\Payment $transaction Transaction
+     * @param \Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment $transaction Transaction
      * @param array $postData Post data
      * @param array $queryParams Query params
      * @return bool

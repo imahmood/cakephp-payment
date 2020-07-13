@@ -132,17 +132,6 @@ class PaymentComponent extends Component
     }
 
     /**
-     * @param int $id Transaction id
-     * @return \Cake\Datasource\EntityInterface|\CakePayment\Model\Entity\Payment|null
-     */
-    protected function findTransaction($id)
-    {
-        return $this->getTable()->find()
-            ->where(['id' => $id])
-            ->first();
-    }
-
-    /**
      * @return \Cake\ORM\Table|\CakePayment\Model\Table\PaymentsTable
      */
     protected function getTable()
@@ -162,7 +151,7 @@ class PaymentComponent extends Component
     {
         if ($this->_gatewayInstance === null) {
             $config = $this->getConfig();
-            $name = 'CakePayment.' . Inflector::classify($config['use']);
+            $name = 'CakePayment.' . Inflector::camelize($config['use']);
 
             $className = App::className($name, 'Gateway', 'Gateway');
             if (empty($className)) {
