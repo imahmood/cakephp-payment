@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace CakePayment\Gateway;
 
 use Cake\Datasource\EntityInterface;
-use Cake\Http\Client as HttpClient;
+use Cake\Http\Client;
+use Cake\Http\Client\Response;
 use Cake\Http\Exception\HttpException;
 
 class ZarinpalGateway extends AbstractGateway
@@ -20,7 +21,7 @@ class ZarinpalGateway extends AbstractGateway
     public const QUERY_STRING_STATUS_NOT_OK = 'NOK';
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected $_defaultConfig = [
         'merchantCode' => null,
@@ -28,21 +29,23 @@ class ZarinpalGateway extends AbstractGateway
     ];
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function initialize()
+    public function initialize(): void
     {
         $server = $this->getConfig('sandbox') ? 'sandbox' : 'www';
 
-        $this->setConfig('serverUrl', sprintf('https://%s.zarinpal.com/pg/rest/WebGate/PaymentRequest.json', $server));
-        $this->setConfig('verifyUrl', sprintf('https://%s.zarinpal.com/pg/rest/WebGate/PaymentVerification.json', $server));
-        $this->setConfig('redirectUrl', sprintf('https://%s.zarinpal.com/pg/StartPay/', $server));
+        $this->setConfig([
+            'serverUrl' => sprintf('https://%s.zarinpal.com/pg/rest/WebGate/PaymentRequest.json', $server),
+            'verifyUrl' => sprintf('https://%s.zarinpal.com/pg/rest/WebGate/PaymentVerification.json', $server),
+            'redirectUrl' => sprintf('https://%s.zarinpal.com/pg/StartPay/', $server),
+        ]);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function payRequest(EntityInterface $transaction)
+    public function payRequest(EntityInterface $transaction): bool
     {
         $params = [
             'MerchantID' => $this->getConfig('merchantCode'),
@@ -88,9 +91,9 @@ class ZarinpalGateway extends AbstractGateway
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function verify(EntityInterface $transaction, array $postData, array $queryParams)
+    public function verify(EntityInterface $transaction, array $postData, array $queryParams): bool
     {
         $status = array_get($queryParams, 'Status');
 
@@ -137,10 +140,19 @@ class ZarinpalGateway extends AbstractGateway
         return false;
     }
 
+
     /**
-     * {@inheritDoc}
+     * @return string
      */
-    public function getResponseMessage($code)
+    public function getViewFile(): string
+    {
+        return 'CakePayment.Gateways/zarinpal';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getResponseMessage($code): string
     {
         $messages = [
             self::CONNECTION_ERROR => 'برقراری ارتباط با درگاه زرین‌پال میسر نیست.',
@@ -171,9 +183,9 @@ class ZarinpalGateway extends AbstractGateway
      * @param array $data data
      * @return \Cake\Http\Client\Response
      */
-    protected function httpRequest($url, array $data = [])
+    protected function httpRequest(string $url, array $data = []): Response
     {
-        return (new HttpClient())->post($url, json_encode($data), [
+        return (new Client())->post($url, json_encode($data), [
             'type' => 'json',
         ]);
     }

@@ -73,35 +73,21 @@ abstract class AbstractGateway implements GatewayInterface
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
     }
-
-    /**
-     * @param \Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment $transaction Transaction
-     * @return bool
-     */
-    abstract public function payRequest(EntityInterface $transaction);
-
-    /**
-     * @param \Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment $transaction Transaction
-     * @param array $postData Post data
-     * @param array $queryParams Query params
-     * @return bool
-     */
-    abstract public function verify(EntityInterface $transaction, array $postData, array $queryParams);
 
     /**
      * @param string|int $code Response code
      * @return string
      */
-    abstract public function getResponseMessage($code);
+    abstract public function getResponseMessage($code): string;
 
     /**
      * @param \Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment $transaction Transaction
      * @return string
      */
-    public function buildCallbackUrl(EntityInterface $transaction)
+    public function buildCallbackUrl(EntityInterface $transaction): string
     {
         return $this->addQueryString($this->getCallbackUrl(), [
             'payment' => $transaction->id,
@@ -110,11 +96,11 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @param string $url url
+     * @param string $url Url
      * @param array $queryParams Query params
      * @return string
      */
-    public function addQueryString($url, array $queryParams)
+    public function addQueryString(string $url, array $queryParams): string
     {
         $queryString = http_build_query($queryParams);
 
@@ -129,7 +115,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @param int|null $statusCode status code
      * @return void
      */
-    public function connectivityIssue(?int $statusCode = null)
+    public function connectivityIssue(?int $statusCode = null): void
     {
         $code = self::CONNECTION_ERROR;
 
@@ -142,10 +128,10 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @param string $url url
+     * @param string $url Url
      * @return void
      */
-    public function setCallbackUrl($url)
+    public function setCallbackUrl(string $url): void
     {
         $this->_callbackUrl = $url;
     }
@@ -153,13 +139,13 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * @return string
      */
-    public function getCallbackUrl()
+    public function getCallbackUrl(): string
     {
         return $this->_callbackUrl;
     }
 
     /**
-     * @param string|int $code code
+     * @param string|int $code Code
      * @return void
      */
     public function setReferenceCode($code)
@@ -176,7 +162,7 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @param string|int $code code
+     * @param string|int $code Code
      * @return void
      */
     public function setTrackingCode($code)
@@ -193,10 +179,10 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @param string|int $code code
+     * @param string|int $code Code
      * @return void
      */
-    public function setResponseCode($code)
+    public function setResponseCode($code): void
     {
         $this->_responseCode = $code;
     }
@@ -213,7 +199,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @param array $data view data
      * @return void
      */
-    public function setViewData(array $data)
+    public function setViewData(array $data): void
     {
         $this->_viewData = $data;
     }
@@ -221,7 +207,7 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * @return array
      */
-    public function getViewData()
+    public function getViewData(): array
     {
         return $this->_viewData;
     }
@@ -230,7 +216,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @param string $error error message
      * @return void
      */
-    public function setError($error)
+    public function setError(string $error): void
     {
         $this->_error = $error;
     }
@@ -238,7 +224,7 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * @return string
      */
-    public function getError()
+    public function getError(): string
     {
         return $this->_error;
     }

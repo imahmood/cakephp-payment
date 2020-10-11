@@ -7,8 +7,11 @@ use Cake\Chronos\Chronos;
 use Cake\Controller\Component;
 use Cake\Core\App;
 use Cake\Datasource\EntityInterface;
+use Cake\Datasource\RepositoryInterface;
+use Cake\Http\Response;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Utility\Inflector;
+use CakePayment\Gateway\GatewayInterface;
 use CakePayment\Model\Entity\Payment;
 use Exception;
 
@@ -42,9 +45,9 @@ class PaymentComponent extends Component
     /**
      * @param float $amount Transaction amount
      * @param array $data Transaction data
-     * @return \Cake\Datasource\EntityInterface|\CakePayment\Model\Entity\Payment|false
+     * @return (\Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment)|false
      */
-    public function create($amount, array $data = [])
+    public function create(float $amount, array $data = [])
     {
         return $this->getTable()->newTransaction($amount, $data);
     }
@@ -54,7 +57,7 @@ class PaymentComponent extends Component
      * @return bool
      * @throws \Exception
      */
-    public function pay(EntityInterface $transaction)
+    public function pay(EntityInterface $transaction): bool
     {
         $response = $this->getGateway()->payRequest($transaction);
 
@@ -76,23 +79,23 @@ class PaymentComponent extends Component
      * @return \Cake\Http\Response
      * @throws \Exception
      */
-    public function redirect()
+    public function redirect(): Response
     {
         $controller = $this->getController();
         $controller->set($this->getGateway()->getViewData());
         $controller->viewBuilder()->setTemplatePath('/');
 
-        return $controller->render($this->getViewFile());
+        return $controller->render($this->getGateway()->getViewFile());
     }
 
     /**
-     * @param \Cake\Datasource\EntityInterface|\CakePayment\Model\Entity\Payment $transaction Transaction
+     * @param \Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment $transaction Transaction
      * @param array $postData Post data
      * @param array $queryParams Query params
      * @return bool
      * @throws \Exception
      */
-    public function verify(EntityInterface $transaction, array $postData, array $queryParams)
+    public function verify(EntityInterface $transaction, array $postData, array $queryParams): bool
     {
         $response = $this->getGateway()->verify($transaction, $postData, $queryParams);
 
@@ -116,25 +119,15 @@ class PaymentComponent extends Component
      * @return string
      * @throws \Exception
      */
-    public function getError()
+    public function getError(): string
     {
         return $this->getGateway()->getError();
     }
 
     /**
-     * @return string
+     * @return \Cake\Datasource\RepositoryInterface&\CakePayment\Model\Table\PaymentsTable
      */
-    protected function getViewFile()
-    {
-        $filename = Inflector::underscore(strtolower($this->getConfig('use')));
-
-        return 'CakePayment.Gateways/' . $filename;
-    }
-
-    /**
-     * @return \Cake\ORM\Table|\CakePayment\Model\Table\PaymentsTable
-     */
-    protected function getTable()
+    protected function getTable(): RepositoryInterface
     {
         if ($this->_transactionsTable === null) {
             $this->_transactionsTable = $this->getTableLocator()->get('CakePayment.Payments');
@@ -147,19 +140,26 @@ class PaymentComponent extends Component
      * @return \CakePayment\Gateway\GatewayInterface
      * @throws \Exception
      */
-    protected function getGateway()
+    protected function getGateway(): GatewayInterface
     {
         if ($this->_gatewayInstance === null) {
             $config = $this->getConfig();
-            $name = 'CakePayment.' . Inflector::camelize($config['use']);
+            $className = $config['use'];
 
-            $className = App::className($name, 'Gateway', 'Gateway');
+            if (strrpos($className, '\\') === false) {
+                $className = 'CakePayment.' . Inflector::camelize($className);
+                $className = App::className($className, 'Gateway', 'Gateway');
+            }
+
             if (empty($className)) {
-                throw new Exception("Could not find {$name} gateway class.");
+                throw new Exception("Could not find {$config['use']} gateway class.");
             }
 
             $this->_gatewayInstance = new $className($config['options']);
-            $this->_gatewayInstance->setCallbackUrl($config['callbackUrl']);
+
+            if ($config['callbackUrl']) {
+                $this->_gatewayInstance->setCallbackUrl($config['callbackUrl']);
+            }
         }
 
         return $this->_gatewayInstance;

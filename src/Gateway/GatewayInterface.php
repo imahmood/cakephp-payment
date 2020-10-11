@@ -16,7 +16,7 @@ interface GatewayInterface
      * @param \Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment $transaction Transaction
      * @return bool
      */
-    public function payRequest(EntityInterface $transaction);
+    public function payRequest(EntityInterface $transaction): bool;
 
     /**
      * @param \Cake\Datasource\EntityInterface&\CakePayment\Model\Entity\Payment $transaction Transaction
@@ -24,36 +24,13 @@ interface GatewayInterface
      * @param array $queryParams Query params
      * @return bool
      */
-    public function verify(EntityInterface $transaction, array $postData, array $queryParams);
+    public function verify(EntityInterface $transaction, array $postData, array $queryParams): bool;
 
     /**
-     * @param string|int $code Response code
-     * @return string
-     */
-    public function getResponseMessage($code);
-
-    /**
-     * @param int|null $statusCode status code
+     * @param string $url Url
      * @return void
      */
-    public function connectivityIssue(?int $statusCode = null);
-
-    /**
-     * @param string $url url
-     * @return void
-     */
-    public function setCallbackUrl($url);
-
-    /**
-     * @return string
-     */
-    public function getCallbackUrl();
-
-    /**
-     * @param string|int $code code
-     * @return void
-     */
-    public function setReferenceCode($code);
+    public function setCallbackUrl(string $url): void;
 
     /**
      * @return string|int
@@ -61,21 +38,9 @@ interface GatewayInterface
     public function getReferenceCode();
 
     /**
-     * @param string|int $code code
-     * @return void
-     */
-    public function setTrackingCode($code);
-
-    /**
      * @return string|int
      */
     public function getTrackingCode();
-
-    /**
-     * @param string|int $code code
-     * @return void
-     */
-    public function setResponseCode($code);
 
     /**
      * @return string|int
@@ -83,24 +48,17 @@ interface GatewayInterface
     public function getResponseCode();
 
     /**
-     * @param array $data view data
-     * @return void
+     * @return string
      */
-    public function setViewData(array $data);
+    public function getViewFile(): string;
 
     /**
      * @return array
      */
-    public function getViewData();
-
-    /**
-     * @param string $error error message
-     * @return void
-     */
-    public function setError($error);
+    public function getViewData(): array;
 
     /**
      * @return string
      */
-    public function getError();
+    public function getError(): string;
 }

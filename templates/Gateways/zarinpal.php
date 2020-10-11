@@ -1,5 +1,10 @@
 <?php
-$this->layout = 'CakePayment.gateway';
+/**
+ * @var string $redirectUrl
+ * @var string $authority
+ */
+
+$this->setLayout('CakePayment.gateway');
 $this->assign('pageTitle', 'انتقال به درگاه پرداخت آنلاین');
 ?>
 

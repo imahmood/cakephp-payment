@@ -63,6 +63,7 @@ class CreatePayments extends AbstractMigration
             ->addColumn('modified', 'datetime');
 
         $payments
+            ->addIndex('status')
             ->addPrimaryKey('id');
 
         $payments->create();

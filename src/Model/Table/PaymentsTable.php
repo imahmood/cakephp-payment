@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace CakePayment\Model\Table;
 
+use Cake\Core\Configure;
 use Cake\Database\Schema\TableSchemaInterface;
 use Cake\ORM\Table;
+use Cake\Utility\Inflector;
 use Cake\Utility\Text;
 use Cake\Validation\Validator;
 use CakePayment\Model\Entity\Payment;
@@ -40,7 +42,8 @@ class PaymentsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('payments');
+        $this->setTable(Configure::read('Payment.tableName') ?? 'payments');
+        $this->setAlias(Inflector::camelize($this->getTable()));
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
@@ -107,7 +110,7 @@ class PaymentsTable extends Table
      * @param array $data Transaction data
      * @return \CakePayment\Model\Entity\Payment|false
      */
-    public function newTransaction($amount, array $data = [])
+    public function newTransaction(float $amount, array $data = [])
     {
         if ($amount < 1) {
             return false;
