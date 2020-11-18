@@ -34,21 +34,21 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * Reference code.
      *
-     * @var string|int
+     * @var string|int|null
      */
     protected $_referenceCode = null;
 
     /**
      * Tracking code.
      *
-     * @var string|int
+     * @var string|int|null
      */
     protected $_trackingCode = null;
 
     /**
      * Gateway response code.
      *
-     * @var string|int
+     * @var string|int|null
      */
     protected $_responseCode = null;
 
@@ -154,7 +154,7 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
     public function getReferenceCode()
     {
@@ -171,7 +171,7 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
     public function getTrackingCode()
     {
@@ -188,7 +188,7 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
     public function getResponseCode()
     {

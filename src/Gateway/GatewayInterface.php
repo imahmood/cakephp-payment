@@ -33,17 +33,17 @@ interface GatewayInterface
     public function setCallbackUrl(string $url): void;
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
     public function getReferenceCode();
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
     public function getTrackingCode();
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
     public function getResponseCode();
 

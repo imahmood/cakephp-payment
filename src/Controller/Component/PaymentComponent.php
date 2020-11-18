@@ -99,6 +99,11 @@ class PaymentComponent extends Component
     {
         $response = $this->getGateway()->verify($transaction, $postData, $queryParams);
 
+        $referenceCode = $this->getGateway()->getReferenceCode();
+        if ($referenceCode !== null) {
+            $transaction->reference_code = $referenceCode;
+        }
+
         $transaction->tracking_code = $this->getGateway()->getTrackingCode();
         $transaction->response_code = $this->getGateway()->getResponseCode();
         $transaction->completed = Chronos::now();
