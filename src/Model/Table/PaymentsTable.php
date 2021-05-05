@@ -80,6 +80,10 @@ class PaymentsTable extends Table
             ->allowEmptyString('response_code');
 
         $validator
+            ->maxLength('card_number', 128)
+            ->allowEmptyString('card_number');
+
+        $validator
             ->uuid('secure_key')
             ->requirePresence('secure_key', 'create')
             ->notEmptyString('secure_key');

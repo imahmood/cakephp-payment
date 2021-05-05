@@ -19,7 +19,9 @@ class CreatePayments extends AbstractMigration
      */
     public function change()
     {
-        $payments = $this->table('payments');
+        $payments = $this->table('payments', [
+            'collation' => 'utf8_general_ci',
+        ]);
 
         $payments
             ->addColumn('id', 'biginteger', [
@@ -42,6 +44,11 @@ class CreatePayments extends AbstractMigration
                 'null' => true,
             ])
             ->addColumn('response_code', 'string', [
+                'limit' => 128,
+                'default' => null,
+                'null' => true,
+            ])
+            ->addColumn('card_number', 'string', [
                 'limit' => 128,
                 'default' => null,
                 'null' => true,

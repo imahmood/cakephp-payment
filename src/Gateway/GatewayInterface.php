@@ -48,6 +48,11 @@ interface GatewayInterface
     public function getResponseCode();
 
     /**
+     * @return string|null
+     */
+    public function getCardNumber();
+
+    /**
      * @return string
      */
     public function getViewFile(): string;

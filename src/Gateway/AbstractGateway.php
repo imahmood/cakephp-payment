@@ -53,6 +53,13 @@ abstract class AbstractGateway implements GatewayInterface
     protected $_responseCode = null;
 
     /**
+     * Card number.
+     *
+     * @var string|null
+     */
+    protected $_cardNumber = null;
+
+    /**
      * @var array
      */
     protected $_viewData = [];
@@ -193,6 +200,22 @@ abstract class AbstractGateway implements GatewayInterface
     public function getResponseCode()
     {
         return $this->_responseCode;
+    }
+
+    /**
+     * @param string|null $cardNumber Card number
+     */
+    public function setCardNumber($cardNumber): void
+    {
+        $this->_cardNumber = $cardNumber;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCardNumber()
+    {
+        return $this->_cardNumber;
     }
 
     /**

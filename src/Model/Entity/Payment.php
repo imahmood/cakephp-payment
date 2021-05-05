@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property string|null $reference_code
  * @property string|null $tracking_code
  * @property string|null $response_code
+ * @property string|null $card_number
  * @property string $secure_key
  * @property int $status
  * @property \Cake\I18n\FrozenTime|null $completed
@@ -58,6 +59,7 @@ class Payment extends Entity
         'reference_code' => false,
         'tracking_code' => false,
         'response_code' => false,
+        'card_number' => false,
         'secure_key' => false,
         'status' => false,
         'completed' => false,

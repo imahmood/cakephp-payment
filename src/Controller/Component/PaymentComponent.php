@@ -106,6 +106,7 @@ class PaymentComponent extends Component
 
         $transaction->tracking_code = $this->getGateway()->getTrackingCode();
         $transaction->response_code = $this->getGateway()->getResponseCode();
+        $transaction->card_number = $this->getGateway()->getCardNumber();
         $transaction->completed = Chronos::now();
 
         if ($response) {
