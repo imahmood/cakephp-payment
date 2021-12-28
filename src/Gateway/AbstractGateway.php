@@ -46,6 +46,13 @@ abstract class AbstractGateway implements GatewayInterface
     protected $_trackingCode = null;
 
     /**
+     * RRN.
+     *
+     * @var string|int|null
+     */
+    protected $_rrn = null;
+
+    /**
      * Gateway response code.
      *
      * @var string|int|null
@@ -186,6 +193,23 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
+     * @param string|int $code Rrn
+     * @return void
+     */
+    public function setRrn($code)
+    {
+        $this->_rrn = $code;
+    }
+
+    /**
+     * @return int|string|null
+     */
+    public function getRrn()
+    {
+       return $this->_rrn;
+    }
+
+    /**
      * @param string|int $code Code
      * @return void
      */
@@ -213,7 +237,7 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * @return string|null
      */
-    public function getCardNumber()
+    public function getCardNumber(): ?string
     {
         return $this->_cardNumber;
     }

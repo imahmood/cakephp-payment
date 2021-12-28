@@ -45,12 +45,17 @@ interface GatewayInterface
     /**
      * @return string|int|null
      */
+    public function getRrn();
+
+    /**
+     * @return string|int|null
+     */
     public function getResponseCode();
 
     /**
      * @return string|null
      */
-    public function getCardNumber();
+    public function getCardNumber(): ?string;
 
     /**
      * @return string

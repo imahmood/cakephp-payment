@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property string|null $reference_code
  * @property string|null $tracking_code
  * @property string|null $response_code
+ * @property string|null $rrn
  * @property string|null $card_number
  * @property string $secure_key
  * @property int $status
@@ -58,6 +59,7 @@ class Payment extends Entity
         'amount' => false,
         'reference_code' => false,
         'tracking_code' => false,
+        'rrn' => false,
         'response_code' => false,
         'card_number' => false,
         'secure_key' => false,
